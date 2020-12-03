@@ -10,7 +10,13 @@ def main():
 
     with jsonstreams.Stream(jsonstreams.Type.object, filename="/dev/stdout") as s:
         for k, v in more_itertools.sliced(args, 2):
-            s.write(k, v)
+            if k.endswith("@"):
+                with open(v, "r") as f:
+                    # Waiting on https://github.com/dcbaker/jsonstreams/issues/30
+                    # for a way to do this in bounded memory.
+                    s.write(k[0:-1], f.read())
+            else:
+                s.write(k, v)
 
 if __name__ == '__main__':
     main()
