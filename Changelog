@@ -1,4 +1,7 @@
 ## [Unreleased]
+
+
+## [0.3.0] - 2020-12-05
 Take non-exclusive locks on files as they are read
 
 
