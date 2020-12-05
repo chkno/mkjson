@@ -11,10 +11,13 @@ def main():
     with jsonstreams.Stream(jsonstreams.Type.object, filename="/dev/stdout") as s:
         for k, v in more_itertools.sliced(args, 2):
             if k.endswith("@"):
-                with open(v, "r") as f:
-                    # Waiting on https://github.com/dcbaker/jsonstreams/issues/30
-                    # for a way to do this in bounded memory.
-                    s.write(k[0:-1], f.read())
+                # Waiting on https://github.com/dcbaker/jsonstreams/issues/30
+                # for a way to do this in bounded memory.
+                if v == '-':
+                    s.write(k[0:-1], sys.stdin.read())
+                else:
+                    with open(v, "r") as f:
+                        s.write(k[0:-1], f.read())
             else:
                 s.write(k, v)
 
