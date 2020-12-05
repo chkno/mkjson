@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='mkjson',
-    version="0.1.0",
+    version="0.2.0-pre",
     py_modules=['mkjson'],
     entry_points={
         'console_scripts': [
