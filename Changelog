@@ -1,5 +1,9 @@
 ## [Unreleased]
+
+
+## [0.2.0] - 2020-12-05
 Treat - as a filename alias for stdin
+
 
 ## [0.1.0] - 2020-12-03
 Initial release
