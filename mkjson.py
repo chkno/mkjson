@@ -1,7 +1,18 @@
+from contextlib import contextmanager
+import fcntl
 import sys
 
 import more_itertools
 import jsonstreams
+
+# Consider using https://github.com/AntoineCezar/flockcontext instead
+@contextmanager
+def flocked(fd, operation=fcntl.LOCK_SH):
+    try:
+        fcntl.flock(fd, operation)
+        yield
+    finally:
+        fcntl.flock(fd, fcntl.LOCK_UN)
 
 def main():
     args = sys.argv[1:]
@@ -17,7 +28,8 @@ def main():
                     s.write(k[0:-1], sys.stdin.read())
                 else:
                     with open(v, "r") as f:
-                        s.write(k[0:-1], f.read())
+                        with flocked(f):
+                            s.write(k[0:-1], f.read())
             else:
                 s.write(k, v)
 
