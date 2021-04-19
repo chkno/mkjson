@@ -3,8 +3,8 @@
   outputs = { self, nixpkgs, }:
     let
 
-      inherit (builtins) attrNames attrValues;
-      inherit (nixpkgs.lib) genAttrs;
+      inherit (builtins) attrNames attrValues foldl';
+      inherit (nixpkgs.lib) composeExtensions genAttrs;
 
       for-supported-systems = genAttrs (attrNames
         ((import (nixpkgs + "/pkgs/top-level/release.nix")
@@ -61,6 +61,9 @@
         };
         mkjson = final: prev: { mkjson = import ./. { pkgs = final; }; };
       };
+
+      overlay =
+        foldl' composeExtensions (final: prev: { }) (attrValues self.overlays);
 
       defaultPackage =
         for-supported-systems (system: packages."${system}".mkjson);
