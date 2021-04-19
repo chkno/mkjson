@@ -50,7 +50,8 @@
       jsonstreamsOverlay = final: prev: {
         python3 = prev.python3.override {
           packageOverrides = pyfinal: pyprev: {
-            jsonstreams = pyfinal.callPackage jsonstreams { };
+            jsonstreams =
+              pyprev.jsonstreams or (pyfinal.callPackage jsonstreams { });
           };
         };
       };
