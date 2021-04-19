@@ -19,7 +19,7 @@
 
       packages = for-supported-systems (system: {
         inherit (nixpkgs.legacyPackages."${system}".appendOverlays
-          (attrValues (self.overlays)))
+          [ self.overlay ])
           mkjson;
       });
 
