@@ -1,4 +1,7 @@
 ## [Unreleased]
+
+
+## [0.4.0] - 2021-04-19
 Defer to the system python3Packages.jsonstreams if it exists
 Offer "overlays" and "overlay" flake outputs
 
