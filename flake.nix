@@ -13,7 +13,7 @@
       packages = for-supported-systems (system: {
         mkjson = import ./. {
           pkgs = nixpkgs.legacyPackages."${system}".appendOverlays
-            [ jsonstreamsOverlay ];
+            [ self.overlays.jsonstreams ];
         };
       });
 
@@ -47,17 +47,20 @@
             maintainers = with maintainers; [ chkno ];
           };
         };
-      jsonstreamsOverlay = final: prev: {
-        python3 = prev.python3.override {
-          packageOverrides = pyfinal: pyprev: {
-            jsonstreams =
-              pyprev.jsonstreams or (pyfinal.callPackage jsonstreams { });
-          };
-        };
-      };
 
     in {
       inherit packages;
+
+      overlays = {
+        jsonstreams = final: prev: {
+          python3 = prev.python3.override {
+            packageOverrides = pyfinal: pyprev: {
+              jsonstreams =
+                pyprev.jsonstreams or (pyfinal.callPackage jsonstreams { });
+            };
+          };
+        };
+      };
 
       defaultPackage =
         for-supported-systems (system: packages."${system}".mkjson);
