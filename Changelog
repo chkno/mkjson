@@ -1,5 +1,6 @@
 ## [Unreleased]
 Defer to the system python3Packages.jsonstreams if it exists
+Offer an "overlays" flake output
 
 
 ## [0.3.0] - 2020-12-05

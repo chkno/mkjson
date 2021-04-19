@@ -3,7 +3,7 @@
   outputs = { self, nixpkgs, }:
     let
 
-      inherit (builtins) attrNames;
+      inherit (builtins) attrNames attrValues;
       inherit (nixpkgs.lib) genAttrs;
 
       for-supported-systems = genAttrs (attrNames
@@ -11,10 +11,9 @@
           { }).stdenvBootstrapTools));
 
       packages = for-supported-systems (system: {
-        mkjson = import ./. {
-          pkgs = nixpkgs.legacyPackages."${system}".appendOverlays
-            [ self.overlays.jsonstreams ];
-        };
+        inherit (nixpkgs.legacyPackages."${system}".appendOverlays
+          (attrValues (self.overlays)))
+          mkjson;
       });
 
       # Pending https://github.com/NixOS/nixpkgs/pull/105819
@@ -60,6 +59,7 @@
             };
           };
         };
+        mkjson = final: prev: { mkjson = import ./. { pkgs = final; }; };
       };
 
       defaultPackage =
