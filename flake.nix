@@ -4,7 +4,14 @@
     let
 
       inherit (builtins) attrNames attrValues foldl';
-      inherit (nixpkgs.lib) composeExtensions genAttrs;
+      inherit (nixpkgs.lib) genAttrs;
+
+      # Work around https://github.com/NixOS/nixpkgs/issues/96405
+      composeExtensions = f: g: final: prev:
+        let
+          fApplied = f final prev;
+          prev' = prev // fApplied;
+        in fApplied // g final prev';
 
       for-supported-systems = genAttrs (attrNames
         ((import (nixpkgs + "/pkgs/top-level/release.nix")
