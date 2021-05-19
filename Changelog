@@ -1,4 +1,5 @@
 ## [Unreleased]
+End keys with ! to treat values as JSON.
 
 
 ## [0.4.0] - 2021-04-19
