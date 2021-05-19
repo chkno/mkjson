@@ -6,7 +6,8 @@ import sys
 import more_itertools
 import jsonstreams
 
-# Consider using https://github.com/AntoineCezar/flockcontext instead
+# Consider using https://github.com/benediktschmitt/py-filelock
+# or https://github.com/AntoineCezar/flockcontext instead
 @contextmanager
 def flocked(fd, operation=fcntl.LOCK_SH):
     try:
