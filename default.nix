@@ -3,7 +3,7 @@ pkgs.python3Packages.callPackage
 ({ lib, buildPythonPackage, jsonstreams, more-itertools, }:
   buildPythonPackage rec {
     pname = "mkjson";
-    version = "0.5.0-pre";
+    version = "0.5.0";
     src = lib.cleanSource ./.;
     propagatedBuildInputs = [ jsonstreams more-itertools ];
     meta = with lib; {

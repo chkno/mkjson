@@ -1,4 +1,7 @@
 ## [Unreleased]
+
+
+## [0.5.0] - 2021-05-19
 End keys with ! to treat values as JSON.
 
 
